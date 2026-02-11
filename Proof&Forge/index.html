@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProofForge | Cryptographic Skill Verification</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <!-- Animation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <!-- Video Background -->
+    <div id="video-container">
+        <video id="mascot-video" src="A_golden_bitcoin_1080p_202602111250.mp4" playsinline muted preload="auto"></video>
+    </div>
+
+    <!-- UI Overlay -->
+    <div class="app-container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="logo">
+                <img src="logo_p&f.png" alt="ProofForge Logo" class="nav-logo">
+            </div>
+            <div class="wallet-status" id="walletStatus">
+                <span class="status-dot"></span>
+                <span id="walletAddressDisplay">Not Connected</span>
+            </div>
+        </nav>
+
+        <main class="scroll-content">
+            <!-- SECTION 1: HERO -->
+            <section class="scroll-section" id="hero-section" data-section="hero">
+                <div class="content-wrapper left-align">
+                    <div class="badge-preview">
+                        <div class="floating-badge">
+                            <div class="badge-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                            <div class="badge-text">Web3 Identity</div>
+                        </div>
+                    </div>
+                    <h1>Prove Your Skills. <br><span class="gradient-text">Cryptographically.</span></h1>
+                    <p class="subtitle">Connect your wallet. Sign a message. Create a verifiable proof of your expertise
+                        that lives on-chain (virtually).</p>
+                    <div class="hero-buttons">
+                        <button id="connectWalletBtn" class="btn btn-primary">Connect Wallet</button>
+                        <button class="btn btn-secondary">See Demo</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: CREATE SKILL PROOF -->
+            <section class="scroll-section" id="create-section" data-section="create">
+                <div class="content-wrapper right-align glass-panel">
+                    <h2>Claim Your Expertise</h2>
+                    <p class="section-desc">Sign a message with your private key. No gas fees. Just pure cryptographic
+                        proof.</p>
+
+                    <div class="input-group">
+                        <label for="skillInput">I am an expert in...</label>
+                        <input type="text" id="skillInput" placeholder="e.g. Solidity, Rust, Zero Knowledge Proofs...">
+                    </div>
+
+                    <div id="signing-ui">
+                        <button id="signBtn" class="btn btn-primary full-width">Sign Skill Proof</button>
+                        <p class="microfeed">This requests a signature. No transaction broadcast.</p>
+                    </div>
+
+                    <div id="loading-ui" class="hidden">
+                        <div class="loader"></div>
+                        <p>Waiting for signature...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: BADGE GENERATION -->
+            <section class="scroll-section" id="badge-section" data-section="badge">
+                <div class="content-wrapper left-align">
+                    <div id="proofBadge" class="proof-badge hidden">
+                        <div class="badge-header">
+                            <span class="badge-title">Proof of Skill</span>
+                            <span class="badge-verified">Verified</span>
+                        </div>
+                        <div class="badge-body">
+                            <h2 id="badgeSkill">Skill Name</h2>
+                            <div class="badge-detail">
+                                <label>Holder</label>
+                                <span id="badgeAddress">0x...</span>
+                            </div>
+                            <div class="badge-detail">
+                                <label>Signature</label>
+                                <span id="badgeSignature" class="mono">0x...</span>
+                            </div>
+                            <div class="badge-footer">
+                                <span id="badgeDate">Date</span>
+                                <span class="badge-brand">ProofForge</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="badge-actions hidden" id="badgeActions">
+                        <h3>Your Proof is Ready</h3>
+                        <p>This badge is mathematically linked to your wallet address.</p>
+                        <button id="downloadBtn" class="btn btn-secondary">Download PNG</button>
+                        <button id="resetBtn" class="btn btn-text">Create Another</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: TRUST / EXPLAINER -->
+            <section class="scroll-section" id="trust-section" data-section="trust">
+                <div class="content-wrapper center-align">
+                    <div class="features-grid">
+                        <div class="feature-block glass-card">
+                            <div class="feature-icon"><i class="fa-solid fa-wallet"></i></div>
+                            <h3>Wallet Identity</h3>
+                            <p>Your address is your passport.</p>
+                        </div>
+                        <div class="feature-block glass-card">
+                            <div class="feature-icon"><i class="fa-solid fa-file-signature"></i></div>
+                            <h3>Crypto Signature</h3>
+                            <p>Unforgeable mathematical proof.</p>
+                        </div>
+                        <div class="feature-block glass-card">
+                            <div class="feature-icon"><i class="fa-solid fa-globe"></i></div>
+                            <h3>Decentralized</h3>
+                            <p>You own your data completely.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 5: CTA -->
+            <section class="scroll-section" id="cta-section" data-section="cta">
+                <div class="content-wrapper center-align">
+                    <h2>Ready to prove yourself?</h2>
+                    <p>Join the future of decentralized credentialing.</p>
+                    <button class="btn btn-primary btn-large" onclick="window.scrollTo(0,0)">Start Now</button>
+
+                    <footer class="footer-minimal">
+                        <div class="footer-logo">ProofForge</div>
+                        <p>Decentralized proof of knowledge.</p>
+                    </footer>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Logic -->
+    <script src="mascot.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
